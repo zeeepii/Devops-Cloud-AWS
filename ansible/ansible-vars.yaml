@@ -6,7 +6,7 @@ docker_package_name: "docker.io"
 
 # ecr-vars.yaml
 
-ecr_url: "682033493357.dkr.ecr.us-east-1.amazonaws.com"
+ecr_url: "820242929965.dkr.ecr.us-east-1.amazonaws.com"
 ecr_repository: "test"
 region: "us-east-1"
 frontend_image_tag: "frontend-1.0"
