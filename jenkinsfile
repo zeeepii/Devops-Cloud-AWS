@@ -208,73 +208,38 @@ pipeline {
 
 //  for linux users
 
-//         stage('Check Ansible Version') {
-//             steps {
-//                 script {
-//                     sh """
-//                     echo "Printing the current Ansible version:"
-//                     ansible --version
-//                     """
-//                 }
-//             }
-//         }
-//         stage('Run Ansible Playbook') {
-//             steps {
-//                 script {
-//                     dir('ansible') {
-//                         sh """
-//                         if [ -f "docker_deploy_playbook.yml" ]; then
-//                             echo "Found playbook docker_deploy_playbook.yml"
-//
-//                             # Run the Ansible playbook
-//                             ansible-playbook -i hosts docker_deploy_playbook.yml
-//                         else
-//                             echo "Playbook docker_deploy_playbook.yml not found!"
-//                             exit 1
-//                         fi
-//                         """
-//                     }
-//                 }
-//             }
-//         }
+         stage('Check Ansible Version') {
+             steps {
+                 script {
+                     sh """
+                     echo "Printing the current Ansible version:"
+                     ansible --version
+                     """
+                 }
+             }
+         }
+         stage('Run Ansible Playbook') {
+             steps {
+                 script {
+                     dir('ansible') {
+                         sh """
+                         if [ -f "docker_deploy_playbook.yml" ]; then
+                             echo "Found playbook docker_deploy_playbook.yml"
+
+                             # Run the Ansible playbook
+                             ansible-playbook -i hosts docker_deploy_playbook.yml
+                         else
+                             echo "Playbook docker_deploy_playbook.yml not found!"
+                             exit 1
+                         fi
+                           """
+                     }
+                 }
+             }
+         }
 
 
-//  for windows users
 
-
-        stage('Check and Manage Ansible Container') {
-            steps {
-                script {
-                    dir('ansible') {
-                        sh '''
-                        echo "Checking and managing the 'my_ansible_container'"
-
-                        CONTAINER_NAME="my_ansible_container"
-                        IMAGE_NAME="cytopia/ansible"
-
-                        # Stop and remove the container if it exists
-                        if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-                            echo "Container ${CONTAINER_NAME} exists. Stopping and removing it..."
-                            docker stop ${CONTAINER_NAME} || true
-                            docker rm ${CONTAINER_NAME} || true
-                        fi
-
-                        # Create and start a new container with volume mounted
-                        echo "Creating and starting a new container with the ansible directory mounted..."
-                        docker run -dit --name ${CONTAINER_NAME} \
-                            -v $(pwd):/ansible \
-                            -w /ansible \
-                            ${IMAGE_NAME} \
-                            sh -c 'while true; do sleep 30; done'
-
-                        # Verify the ansible directory and its contents in the container
-                        echo "Verifying the ansible directory and its contents in the container:"
-                        docker exec ${CONTAINER_NAME} sh -c "ls /ansible && cat /ansible/hosts || echo 'Directory or file not found'"
-                        '''
-                    }
-                }
-            }
-        }
         stage('Install OpenSSH in Ansible Container') {
                     steps {
                         script {
