@@ -7,7 +7,7 @@ docker_package_name: "docker.io"
 # ecr-vars.yaml
 
 ecr_url: "820242929965.dkr.ecr.us-east-1.amazonaws.com"
-ecr_repository: "test"
+ecr_repository: "enis-app"
 region: "us-east-1"
 frontend_image_tag: "frontend-1.0"
 backend_image_tag: "backend-1.0"
