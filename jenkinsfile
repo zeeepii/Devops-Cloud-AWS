@@ -230,7 +230,8 @@ pipeline {
                              ansible-playbook -i hosts docker_deploy_playbook.yml
                          else
                              echo "Playbook docker_deploy_playbook.yml not found!"
-                             exit 1                         fi
+                             exit 1
+                         fi
                          """
                      }
                  }
@@ -238,7 +239,15 @@ pipeline {
          }
 
 
+//  for windows users
 
+
+
+        
+
+ 
+
+    }
     post {
             success {
                 script {
@@ -251,6 +260,6 @@ pipeline {
             }
         }
 }
-}
+
 
 
